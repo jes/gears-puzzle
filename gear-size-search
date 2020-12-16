@@ -21,11 +21,9 @@ sub dfs {
     if ($gearnum == $numgears) {
         # a gear must exist with a bigger big than 4's + margin, and opposite parity, and small wheel not crashing
         return unless ($big[0] > $big[3]+$margin && $small[0]+$margin < $big[3]) || ($big[2] > $big[3]+$margin && $small[2]+$margin < $big[3]); # 4 gears
-        #return unless ($big[1] > $big[4]+$margin && $small[1]+$margin < $big[4]) || ($big[3] > $big[4]+$margin && $small[3]+$margin < $big[4]); # 5 gears
 
         # a gear must exist with equal big to 1's big, but opposite parity
         return unless $big[1] == $big[0] || $big[3] == $big[0]; # 4 gears
-        #return unless $big[1] == $big[0] || $big[3] == $big[0]; # 5 gears
 
         my $gears = "(" . join(', ', map { "{$big[$_],$small[$_]}"} (0..$numgears-1)) . ")";
         my $spacing = join(',', map { $small[$_-1]+$big[$_] } (1..$numgears-1));
@@ -40,7 +38,6 @@ sub dfs {
             $small[$gearnum] = $small;
 
             next if $gearnum > 0 && $small[$gearnum-1]+$big[$gearnum] < $big[$gearnum-1]+$small[$gearnum]+$margin; # check that gears won't mesh where not wanted
-            #next if $gearnum > 1 && $small[$gearnum-1]+$big[$gearnum] != $small[$gearnum-2]+$big[$gearnum-1]; # check that all spacings are equal to maximise confusion
 
             dfs($gearnum+1, $reduction*($big/$driving), $small);
         }
